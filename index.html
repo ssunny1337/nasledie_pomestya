@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#29231d">
+  <meta name="description" content="Три реликвии. Три тайника. Одно наследие.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>Наследие поместья</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IM+Fell+English:ital@0;1&display=swap');
+    :root {
+      color-scheme: dark;
+      --ink: #e8ddc8;
+      --muted: #b8a98e;
+      --gold: #c5a66b;
+      --gold-dim: #806b49;
+      --paper: #29231d;
+      --panel: #332b23;
+      --panel2: #211c17;
+      --line: rgba(197,166,107,.34);
+      --green: #a6ad83;
+    }
+    * { box-sizing: border-box; }
+    html { min-height: 100%; background: var(--paper); }
+    body {
+      margin: 0; min-height: 100vh; color: var(--ink);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background:
+        radial-gradient(ellipse at 50% -10%, rgba(145,111,65,.18), transparent 55%),
+        repeating-linear-gradient(0deg, rgba(255,255,255,.012) 0 1px, transparent 1px 3px),
+        var(--paper);
+      padding: max(22px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom));
+    }
+    .wrap { width: min(100%, 520px); margin: 0 auto; }
+    header { text-align:center; padding: 13px 8px 20px; }
+    .crest { width: 54px; height: 54px; margin: 0 auto 12px; color:var(--gold); }
+    .eyebrow { color:var(--gold); font-size:12px; letter-spacing:.25em; text-transform:uppercase; }
+    h1 { font-family:'IM Fell English', Georgia, serif; font-size:clamp(34px, 9vw, 48px); font-weight:400; line-height:1.02; margin:10px 0 8px; }
+    .subtitle { color:var(--muted); font-size:18px; font-style:italic; }
+    .rule { display:flex; align-items:center; gap:12px; margin:18px 0; color:var(--gold-dim); }
+    .rule:before,.rule:after { content:""; height:1px; background:var(--line); flex:1; }
+    .rule span { font-size:17px; }
+    .progress { padding:16px 18px; border:1px solid var(--line); background:rgba(0,0,0,.13); }
+    .progress-head { display:flex; justify-content:space-between; align-items:center; color:var(--muted); font-size:14px; letter-spacing:.08em; text-transform:uppercase; }
+    .count { color:var(--gold); font-size:17px; }
+    .track { display:flex; gap:7px; margin-top:12px; }
+    .segment { height:5px; flex:1; background:#514638; border-radius:5px; transition:background .4s; }
+    .segment.done { background:var(--gold); box-shadow:0 0 10px rgba(197,166,107,.25); }
+    .card {
+      position:relative; margin-top:20px; padding:27px 23px 24px;
+      background:linear-gradient(145deg, rgba(65,53,40,.96), rgba(43,35,28,.98));
+      border:1px solid var(--gold-dim); box-shadow:0 16px 45px rgba(0,0,0,.24);
+    }
+    .card:before { content:""; position:absolute; inset:6px; border:1px solid rgba(197,166,107,.16); pointer-events:none; }
+    .card-top { display:flex; justify-content:space-between; gap:10px; color:var(--gold); font-size:12px; letter-spacing:.17em; text-transform:uppercase; }
+    .stamp { border:1px solid var(--gold-dim); border-radius:50%; width:43px; height:43px; display:grid; place-items:center; color:var(--gold); font-family:'IM Fell English'; font-size:21px; flex:none; }
+    h2 { font-family:'IM Fell English', Georgia, serif; font-weight:400; font-size:30px; line-height:1.05; margin:18px 0 14px; }
+    .body-copy { font-size:21px; line-height:1.42; white-space:pre-line; }
+    .hint { margin-top:22px; padding:13px 15px; border-left:2px solid var(--gold); background:rgba(0,0,0,.15); color:#d5c6a9; font-size:18px; font-style:italic; }
+    .actions { margin-top:22px; display:grid; gap:10px; }
+    button {
+      appearance:none; border:1px solid var(--gold); color:#211b15;
+      background:linear-gradient(#d4bb87,#b7955d); padding:15px 18px;
+      font:600 18px 'Cormorant Garamond', Georgia, serif; letter-spacing:.04em;
+      cursor:pointer; min-height:52px; transition:filter .2s, transform .2s;
+    }
+    button:active { transform:scale(.985); filter:brightness(.94); }
+    button.secondary { background:transparent; color:var(--gold); border-color:var(--gold-dim); }
+    .foot { text-align:center; color:#887a65; font-size:14px; margin:22px 0 0; font-style:italic; }
+    .hidden { display:none !important; }
+    .completed { text-align:center; }
+    .completed .seal { width:72px; height:72px; margin:0 auto 12px; border:1px solid var(--gold); border-radius:50%; display:grid; place-items:center; color:var(--gold); font-size:34px; }
+    .smallprint { color:#9f9077; font-size:14px; text-align:center; margin-top:14px; }
+    .admin { margin:24px auto 0; display:block; background:none; border:0; color:#776a58; min-height:unset; padding:8px; font-size:13px; text-decoration:underline; }
+    @media (min-width:500px) { body { padding-top:38px; } .card { padding:34px 32px 30px; } }
+    @media (prefers-reduced-motion:no-preference) {
+      .card { animation: arrive .55s ease both; }
+      @keyframes arrive { from { opacity:0; transform:translateY(9px); } to {opacity:1; transform:none;} }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <svg class="crest" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <path d="M32 4 53 12v17c0 14-8.8 24-21 31C19.8 53 11 43 11 29V12L32 4Z" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M32 12v38M20 23h24M23 39l9-9 9 9" stroke="currentColor" stroke-width="1.4"/>
+        <circle cx="32" cy="21" r="3" stroke="currentColor"/>
+      </svg>
+      <div class="eyebrow">The Blue Estate · Архив</div>
+      <h1>Наследие<br>поместья</h1>
+      <div class="subtitle">Три реликвии. Три тайника. Одно наследие.</div>
+    </header>
+
+    <div class="progress" aria-label="Прогресс поиска">
+      <div class="progress-head"><span>Ход расследования</span><span class="count" id="count">0 / 3</span></div>
+      <div class="track"><span class="segment" id="seg0"></span><span class="segment" id="seg1"></span><span class="segment" id="seg2"></span></div>
+    </div>
+
+    <section class="card" id="stageCard" aria-live="polite">
+      <div class="card-top"><span id="record">Архивная запись № 001</span><span class="stamp" id="stamp">I</span></div>
+      <h2 id="heading">Письмо наследнице</h2>
+      <div class="body-copy" id="message"></div>
+      <div class="hint" id="clue"></div>
+      <div class="actions">
+        <button id="foundBtn" type="button">Реликвия обнаружена</button>
+      </div>
+    </section>
+
+    <section class="card completed hidden" id="finishCard" aria-live="polite">
+      <div class="seal">✧</div>
+      <div class="eyebrow">Архив закрыт · Наследство принято</div>
+      <h2>Все тайники раскрыты</h2>
+      <div class="body-copy">Три реликвии найдены, а чертёж поместья завершён.
+
+Но есть одна вещь, которую прежний владелец не смог бы спрятать ни в одной комнате.
+
+Это человек, ради которого хочется создавать маленькие приключения, придумывать загадки и делать даже обычные дни особенными.
+
+С днём рождения!
+
+Я очень тебя люблю ❤️</div>
+    </section>
+    <p class="foot" id="foot">«Не доверяй первому впечатлению. Ищи то, что скрыто.»</p>
+    <button class="admin" id="resetBtn" type="button">Начать квест заново</button>
+    <div class="smallprint">Личный архив поместья · Записи сохраняются на этом устройстве</div>
+  </main>
+
+<script>
+  const stages = [
+    {
+      record: "Архивная запись № 001",
+      stamp: "I",
+      heading: "Письмо наследнице",
+      message: "Дорогая наследница!\n\nСегодня тебе предстоит принять необычное наследство.\n\nВ стенах этого поместья спрятаны три реликвии. Каждая из них была оставлена специально для тебя. Но прежний владелец не пожелал раскрывать тайники напрямую — он оставил лишь несколько записей и загадок.\n\nНе доверяй первому впечатлению. Иногда самые обычные комнаты хранят самые необычные секреты.",
+      clue: "Начни с места, где хранят то, что надевают, выходя за пределы поместья."
+    },
+    {
+      record: "Архивная запись № 002",
+      stamp: "II",
+      heading: "Второе хранилище",
+      message: "Первая реликвия найдена. Но это лишь начало.\n\nВнимательно осмотри хранилище: оно хранит больше, чем кажется на первый взгляд.\n\nНе покидай его пределов. Следующий дар спрятан здесь же, но прежний владелец оставил его чуть выше привычного уровня взгляда.",
+      clue: "Ищи там, где вещи ждут своего часа на верхнем ярусе."
+    },
+    {
+      record: "Архивная запись № 003",
+      stamp: "III",
+      heading: "Последний чертёж",
+      message: "Две реликвии уже найдены. Осталась последняя.\n\nПрежний владелец поместья любил необычные тайники. Он считал, что лучшее место для сокровища — то, на которое редко обращают внимание.\n\nТы проводила там немало времени, но едва ли когда-нибудь заглядывала с нужной стороны.",
+      clue: "Не ищи выше уровня глаз. Иногда, чтобы найти самое ценное, нужно опуститься ниже. Последняя реликвия ждёт под местом, где заканчивается каждый день."
+    }
+  ];
+
+  const $ = id => document.getElementById(id);
+  let progress = Math.min(3, Math.max(0, Number(localStorage.getItem("estateProgress") || 0)));
+
+  function render() {
+    $("count").textContent = `${progress} / 3`;
+    [0,1,2].forEach(i => $("seg"+i).classList.toggle("done", i < progress));
+    if (progress >= 3) {
+      $("stageCard").classList.add("hidden");
+      $("finishCard").classList.remove("hidden");
+      $("foot").textContent = "Поместье запомнит этот день.";
+      $("foundBtn").disabled = true;
+      return;
+    }
+    $("finishCard").classList.add("hidden");
+    $("stageCard").classList.remove("hidden");
+    const s = stages[progress];
+    $("record").textContent = s.record;
+    $("stamp").textContent = s.stamp;
+    $("heading").textContent = s.heading;
+    $("message").textContent = s.message;
+    $("clue").textContent = s.clue;
+    $("foundBtn").textContent = progress === 2 ? "Все реликвии найдены" : "Реликвия обнаружена";
+    $("foot").textContent = progress === 0 ? "«Не доверяй первому впечатлению. Ищи то, что скрыто.»" : "«Каждая найденная реликвия приближает разгадку.»";
+  }
+
+  $("foundBtn").addEventListener("click", () => {
+    if (progress < 3) {
+      progress += 1;
+      localStorage.setItem("estateProgress", String(progress));
+      render();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+  });
+
+  $("resetBtn").addEventListener("click", () => {
+    if (confirm("Сбросить прохождение и начать квест сначала?")) {
+      progress = 0;
+      localStorage.setItem("estateProgress", "0");
+      render();
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+  });
+
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+    window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+  }
+  render();
+</script>
+</body>
+</html>

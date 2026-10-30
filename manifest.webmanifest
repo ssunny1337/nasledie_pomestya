@@ -1,0 +1,18 @@
+{
+  "name": "Наследие поместья",
+  "short_name": "Наследие",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#29231d",
+  "theme_color": "#29231d",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
